@@ -86,7 +86,8 @@ class SQLAlchemyDebugPanel(DebugPanel):
                 'params': _params,
                 'is_select': is_select,
                 'context_long': query.context,
-                'context': format_fname(query.context)
+                'context': format_fname(query.context),
+                'bind': query.bind if hasattr(query, 'bind') else ''
             })
         return self.render('panels/sqlalchemy.html', { 'queries': data})
 
@@ -96,6 +97,8 @@ class SQLAlchemyDebugPanel(DebugPanel):
 def sql_select():
     statement = request.args['sql']
     params = request.args['params']
+    bind = request.args.get('bind')
+    bind = bind if bind != '' else None
 
     # Validate hash
     hash = hashlib.sha1(
@@ -109,7 +112,7 @@ def sql_select():
 
     params = json.loads(params)
 
-    engine = SQLAlchemy().get_engine(current_app)
+    engine = SQLAlchemy().get_engine(current_app, bind)
 
     result = engine.execute(statement, params)
     return g.debug_toolbar.render('panels/sqlalchemy_select.html', {
@@ -123,6 +126,8 @@ def sql_select():
 def sql_explain():
     statement = request.args['sql']
     params = request.args['params']
+    bind = request.args.get('bind')
+    bind = bind if bind != '' else None
 
     # Validate hash
     hash = hashlib.sha1(
@@ -136,7 +141,7 @@ def sql_explain():
 
     params = json.loads(params)
 
-    engine = SQLAlchemy().get_engine(current_app)
+    engine = SQLAlchemy().get_engine(current_app, bind)
 
     if engine.driver == 'pysqlite':
         query = 'EXPLAIN QUERY PLAN %s' % statement
