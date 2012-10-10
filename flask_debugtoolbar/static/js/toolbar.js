@@ -123,6 +123,14 @@
                             .toggleClass('flDebugOdd', !even);
                     });
                 });
+            if ($("#debug_toolbar_cache_table")) {
+                $("#debug_toolbar_cache_table").bind('click', function(e) {
+                    var target = $(e.target);
+                    if (target.hasClass('debug_toolbar_cache_details')) {
+                        $("#" + target.attr('id') + "_data").toggle();
+                    }
+                });
+            }
         },
         toggle_content: function(elem) {
             if (elem.is(':visible')) {

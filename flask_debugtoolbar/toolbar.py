@@ -16,6 +16,7 @@ class DebugToolbar(object):
             'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
             'flask_debugtoolbar.panels.template.TemplateDebugPanel',
             'flask_debugtoolbar.panels.sqlalchemy.SQLAlchemyDebugPanel',
+            'flask_debugtoolbar.panels.cache.CacheDebugPanel',
             'flask_debugtoolbar.panels.logger.LoggingPanel',
             'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
             'flask_debugtoolbar.panels.memory.MemoryProfilerDebugPanel',

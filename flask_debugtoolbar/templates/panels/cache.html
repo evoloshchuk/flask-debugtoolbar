@@ -1,0 +1,36 @@
+<div id="debug_toolbar_cache_table">
+    <h5>Cache requests during request processing</h5>
+    <table class="tablesorter">
+        <thead>
+        <tr>
+            <th>(ms)</th>
+            <th>Hit</th>
+            <th>Method</th>
+            <th>Parameters</th>
+            <th>Context</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for request in requests %}
+        <tr class="{{ loop.cycle('flDebugOdd', 'flDebugEven') }}">
+            <td>{{ '%.4f'|format(request.duration * 1000)}}</td>
+            <td>{{request.hit}}</td>
+            <td>{{request.method}}</td>
+            <td>{{request.parameters|string|truncate(60, True)}}<br/>
+                <a href="#" id="debug_toolbar_cache_details_{{request.id}}"
+                   class="debug_toolbar_cache_details">Details</a>
+                <div id="debug_toolbar_cache_details_{{request.id}}_data"
+                     style="display: none; border: 1px solid;">
+                    > {{request.method}}({{request.parameters}})
+                    <br>
+                    > {{request.result}}
+                </div>
+            </td>
+            <td>{{request.context}}</td>
+        </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+
+</div>
+
