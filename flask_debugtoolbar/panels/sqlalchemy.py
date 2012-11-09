@@ -78,6 +78,10 @@ class SQLAlchemyDebugPanel(DebugPanel):
                 current_app.config['SECRET_KEY'] +
                 query.statement + _params).hexdigest()
 
+            bind = None
+            if hasattr(query, 'bind') and query.bind is not None:
+                bind = query.bind
+
             data.append({
                 'duration': query.duration,
                 'sql': format_sql(query.statement, query.parameters),
@@ -87,7 +91,7 @@ class SQLAlchemyDebugPanel(DebugPanel):
                 'is_select': is_select,
                 'context_long': query.context,
                 'context': format_fname(query.context),
-                'bind': query.bind if hasattr(query, 'bind') else ''
+                'bind': bind
             })
         return self.render('panels/sqlalchemy.html', { 'queries': data})
 
