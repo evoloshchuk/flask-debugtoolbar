@@ -78,7 +78,7 @@ class SQLAlchemyDebugPanel(DebugPanel):
                 current_app.config['SECRET_KEY'] +
                 query.statement + _params).hexdigest()
 
-            bind = None
+            bind = '' 
             if hasattr(query, 'bind') and query.bind is not None:
                 bind = query.bind
 
